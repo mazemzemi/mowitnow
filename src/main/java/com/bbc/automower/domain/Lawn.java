@@ -3,7 +3,10 @@ package com.bbc.automower.domain;
 import io.vavr.Tuple2;
 import io.vavr.collection.Set;
 import io.vavr.control.Validation;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Predicate;
@@ -55,18 +58,16 @@ public class Lawn {
     }
 
     private Tuple2<Lawn, Mower> executeInstructions(final Mower mower) {
-        val lawnAndMower = validatePosition(mower.executeNextInstruction())
-                .fold(
+        return mower.executeInstruction()
+                .map(mower1 -> validatePosition(mower1).fold(
                         err -> {
                             log.warn(err);
-                            return Tuple(this, mower);
+                            return Tuple(this, mower.removeInstruction());
                         },
-                        mower1 -> Tuple(move(mower1), mower1)
-                );
-
-        return lawnAndMower._2.getInstructions().isEmpty() ?
-                lawnAndMower :
-                lawnAndMower._1.executeInstructions(lawnAndMower._2);
+                        mower2 -> Tuple(move(mower2), mower2)
+                ))
+                .map(lawnAndMower -> lawnAndMower._1.executeInstructions(lawnAndMower._2))
+                .getOrElse(() -> Tuple(this, mower));
     }
 
     private Lawn move(final Mower mower) {

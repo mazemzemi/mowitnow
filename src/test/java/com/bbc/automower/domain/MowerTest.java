@@ -3,6 +3,7 @@ package com.bbc.automower.domain;
 import com.bbc.automower.enumeration.Instruction;
 import com.bbc.automower.enumeration.Orientation;
 import io.vavr.collection.List;
+import io.vavr.control.Option;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
@@ -84,16 +85,45 @@ public class MowerTest {
                 .instructions(List(LEFT, RIGHT));
 
         //Action
-        Mower newMower = mower.executeNextInstruction();
+        Option<Mower> maybeMower1 = mower.executeInstruction();
 
         //Asserts
-        assertFalse(mower == newMower); //Different instances because Mower is immuable
-        assertEquals(mower, newMower); //Same Id
-        assertEquals(newMower.getOrientation(), WEST);
-        assertEquals(newMower.getPosition(), Position.of(1, 2));
-        assertEquals(newMower.getInstructions().size(), mower.getInstructions().size() - 1);
+        assertTrue(maybeMower1.isDefined());
+        maybeMower1.forEach(
+                mower1 -> {
+                    assertFalse(mower == mower1); //Different instances because Mower is immuable
+                    assertEquals(mower, mower1); //Same Id
+                    assertEquals(mower1.getOrientation(), WEST);
+                    assertEquals(mower1.getPosition(), Position.of(1, 2));
+                    assertEquals(mower1.getInstructions().size(), mower.getInstructions().size() - 1);
+                }
+        );
     }
 
+    @Test
+    public void should_return_none_when_trying_to_execute_next_instruction_without_instruction() {
+        //Given
+        Mower mower = Mower.of(1, 2, NORTH);
+
+        //Action
+        Option<Mower> maybeMower1 = mower.executeInstruction();
+
+        //Asserts
+        assertTrue(maybeMower1.isEmpty());
+    }
+
+    @Test
+    public void should_remove_next_instruction_when_no_action() {
+        //Given
+        Mower mower = Mower.of(1, 2, NORTH)
+                .instructions(List(LEFT, RIGHT));
+
+        //Action
+        Mower mower1 = mower.removeInstruction();
+
+        //Asserts
+        assertEquals(mower1.getInstructions(), List(RIGHT));
+    }
 
     // Private methods
     //-------------------------------------------------------------------------

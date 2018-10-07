@@ -6,6 +6,7 @@ import org.junit.Test;
 import static com.bbc.automower.enumeration.Instruction.FORWARD;
 import static com.bbc.automower.enumeration.Instruction.LEFT;
 import static com.bbc.automower.enumeration.Orientation.NORTH;
+import static com.bbc.automower.enumeration.Orientation.SOUTH;
 import static io.vavr.API.LinkedSet;
 import static io.vavr.API.List;
 import static org.junit.Assert.assertEquals;
@@ -58,6 +59,36 @@ public class LawnTest {
         assertEquals(newLawn.getMowers().size(), 1);
         assertEquals(newLawn.getMowers().head().getOrientation(), NORTH);
         assertEquals(newLawn.getMowers().head().getPosition(), Position.of(1, 3));
+    }
+
+    @Test
+    public void should_do_nothing_when_mower_without_instruction() {
+        //Given
+        Lawn lawn = Lawn.of(5, 5)
+                .initialize(
+                        LinkedSet(Mower.of(1, 2, NORTH)));
+
+        //Action
+        Lawn newLawn = lawn.execute();
+
+        //Asserts
+        assertEquals(newLawn, lawn);
+    }
+
+    @Test
+    public void should_do_nothing_when_mower_try_to_go_outside() {
+        //Given
+        Lawn lawn = Lawn.of(5, 5)
+                .initialize(
+                        LinkedSet(
+                                Mower.of(0, 0, SOUTH)
+                                        .instructions(List(FORWARD))));
+
+        //Action
+        Lawn newLawn = lawn.execute();
+
+        //Asserts
+        assertEquals(newLawn, lawn);
     }
 
 }

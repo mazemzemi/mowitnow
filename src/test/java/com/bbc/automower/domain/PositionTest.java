@@ -9,25 +9,6 @@ public class PositionTest {
     
     private final Position position = Position.of(2, 5);
     
-
-    //-------------------------------------------------------------------------    
-    // Tests des constructeurs
-    //------------------------------------------------------------------------- 
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void should_throw_illegalargumentexception_when_x_is_negative() {
-        Position.of(-1, 1);
-    }
-    
-    @Test(expected=IllegalArgumentException.class)
-    public void should_throw_illegalargumentexception_when_y_is_negative() {
-        Position.of(1, -1);
-    }
-    
-    //-------------------------------------------------------------------------
-    // Tests des méthodes increment[XY] et decrement[XY]
-    //------------------------------------------------------------------------- 
-
     @Test
     public void should_increment_x() {
         //Action

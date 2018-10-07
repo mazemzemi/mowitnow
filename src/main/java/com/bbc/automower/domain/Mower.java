@@ -3,6 +3,7 @@ package com.bbc.automower.domain;
 import com.bbc.automower.enumeration.Instruction;
 import com.bbc.automower.enumeration.Orientation;
 import io.vavr.collection.List;
+import io.vavr.control.Option;
 import lombok.*;
 import lombok.EqualsAndHashCode.Include;
 import lombok.extern.slf4j.Slf4j;
@@ -46,16 +47,12 @@ public class Mower implements Movable<Mower> {
                 .build();
     }
 
-    public Mower executeNextInstruction() {
-        Mower mower = instructions.head()
-                .apply(this);
-
-        return Mower.builder()
-                .uuid(mower.uuid)
-                .orientation(mower.orientation)
-                .position(mower.position)
-                .instructions(mower.instructions.pop())
-                .build();
+    public Option<Mower> executeInstruction() {
+        return instructions.isEmpty() ?
+                None() :
+                Some(instructions.head()
+                        .apply(this)
+                        .removeInstruction());
     }
 
     @Override
@@ -91,6 +88,15 @@ public class Mower implements Movable<Mower> {
                                 Case($(NORTH), position::incrementY),
                                 Case($(WEST), position::decrementX),
                                 Case($(), position)))
+                .build();
+    }
+
+    public Mower removeInstruction() {
+        return Mower.builder()
+                .uuid(uuid)
+                .orientation(orientation)
+                .position(position)
+                .instructions(instructions.pop())
                 .build();
     }
 
