@@ -92,7 +92,6 @@ public class MowerTest {
         assertEquals(newMower.getOrientation(), WEST);
         assertEquals(newMower.getPosition(), Position.of(1, 2));
         assertEquals(newMower.getInstructions().size(), mower.getInstructions().size() - 1);
-
     }
 
 

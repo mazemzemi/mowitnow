@@ -4,16 +4,18 @@ import com.bbc.automower.service.implementation.ParserServiceTest;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.bbc.automower.main.Main.main;
+import static com.bbc.automower.main.TestAppender.clear;
+import static com.bbc.automower.main.TestAppender.messages;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 public class MainTest {
     
-    private final Main main = new Main();
 
     @Before
     public void setUp() {
-        TestAppender.clear();
+        clear();
     }
 
     @Test
@@ -22,10 +24,10 @@ public class MainTest {
         String[] args = new String[]{};
         
         // Action
-        main.main(args);
+        main(args);
         
         // Asserts
-        assertThatMowersHavePrintTheirPositions();
+        assertThatMowersHavePrintedTheirPositions();
     }
     
     @Test
@@ -34,17 +36,17 @@ public class MainTest {
         String[] args = new String[] {ParserServiceTest.GOOD_FILE_PATH};
         
         // Action
-        main.main(args);
+        main(args);
         
         // Asserts
-        assertThatMowersHavePrintTheirPositions();
+        assertThatMowersHavePrintedTheirPositions();
     }
 
-    private void assertThatMowersHavePrintTheirPositions() {
-        assertNotNull(TestAppender.messages);
-        assertEquals(TestAppender.messages.size(), 2);
-        assertEquals(TestAppender.messages.get(0), "1 3 N");
-        assertEquals(TestAppender.messages.get(1), "5 1 E");
+    private void assertThatMowersHavePrintedTheirPositions() {
+        assertNotNull(messages);
+        assertEquals(messages.size(), 2);
+        assertEquals(messages.get(0), "1 3 N");
+        assertEquals(messages.get(1), "5 1 E");
     }
 
 }

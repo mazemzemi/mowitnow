@@ -15,12 +15,12 @@ public class PositionTest {
     //------------------------------------------------------------------------- 
     
     @Test(expected=IllegalArgumentException.class)
-    public void testWhenXIsNegative() {
+    public void should_throw_illegalargumentexception_when_x_is_negative() {
         Position.of(-1, 1);
     }
     
     @Test(expected=IllegalArgumentException.class)
-    public void testWhenYIsNegative() {
+    public void should_throw_illegalargumentexception_when_y_is_negative() {
         Position.of(1, -1);
     }
     
@@ -29,46 +29,46 @@ public class PositionTest {
     //------------------------------------------------------------------------- 
 
     @Test
-    public void testIncrementX() {
+    public void should_increment_x() {
         //Action
         Position newPosition = position.incrementX();
 
         //Asserts
-        testPosition(newPosition,3, 5);
+        assertThatPositionIsEqualToExpected(newPosition,3, 5);
     }
     
     @Test
-    public void testDecrementX() {
+    public void should_decrement_x() {
         //Action
         Position newPosition = position.decrementX();
 
         //Asserts
-        testPosition(newPosition, 1, 5);
+        assertThatPositionIsEqualToExpected(newPosition, 1, 5);
     }
     
     @Test
-    public void testIncrementY() {
+    public void should_increment_y() {
         //Action
         Position newPosition = position.incrementY();
 
         //Asserts
-        testPosition(newPosition, 2, 6);
+        assertThatPositionIsEqualToExpected(newPosition, 2, 6);
     }
     
     @Test
-    public void testDecrementY() {
+    public void should_decrement_y() {
         //Action
         Position newPosition = position.decrementY();
 
         //Asserts
-        testPosition(newPosition, 2, 4);
+        assertThatPositionIsEqualToExpected(newPosition, 2, 4);
     }
     
 
     // Private methods
     //-------------------------------------------------------------------------
     
-    private void testPosition(final Position position, int expectedX, int expectedY) {
+    private void assertThatPositionIsEqualToExpected(final Position position, int expectedX, int expectedY) {
         assertFalse(position == this.position); // Not same references -> position is immuable
         assertEquals(expectedX, position.getX());
         assertEquals(expectedY, position.getY());

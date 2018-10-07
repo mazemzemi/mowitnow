@@ -12,7 +12,6 @@ import static org.junit.Assert.assertEquals;
 
 public class LawnTest {
 
-
     @Test(expected=IllegalArgumentException.class)
     public void should_throw_illegalargumentexception_when_x_is_negative() {
         Lawn.of(-1, 1);
@@ -24,7 +23,7 @@ public class LawnTest {
     }
 
     @Test
-    public void should_initialize() {
+    public void should_initialize_lawn() {
         //Given
         Lawn lawn = Lawn.of(5, 5);
         Set<Mower> mowers = LinkedSet(Mower

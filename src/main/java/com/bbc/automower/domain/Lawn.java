@@ -3,10 +3,7 @@ package com.bbc.automower.domain;
 import io.vavr.Tuple2;
 import io.vavr.collection.Set;
 import io.vavr.control.Validation;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.function.Predicate;
@@ -58,7 +55,7 @@ public class Lawn {
     }
 
     private Tuple2<Lawn, Mower> executeInstructions(final Mower mower) {
-        Tuple2<Lawn, Mower> lawnAndMower = validPosition(mower.executeNextInstruction())
+        val lawnAndMower = validatePosition(mower.executeNextInstruction())
                 .fold(
                         err -> {
                             log.warn(err);
@@ -82,7 +79,7 @@ public class Lawn {
                 .build();
     }
 
-    private Validation<String, Mower> validPosition(final Mower mower) {
+    private Validation<String, Mower> validatePosition(final Mower mower) {
         return insideGrillPosition(mower)
                 .flatMap(this::availablePosition);
     }

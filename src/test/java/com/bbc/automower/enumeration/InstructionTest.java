@@ -11,7 +11,6 @@ import static io.vavr.API.None;
 import static io.vavr.API.Some;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InstructionTest {
@@ -29,14 +28,8 @@ public class InstructionTest {
 
     @Test
     public void should_execute_go_forward_when_forward() {
-        //Given
-        Instruction instruction = FORWARD;
-
-        //When
-        when(mower.goForward()).thenReturn(mower);
-
         //Action
-        instruction.apply(mower);
+        FORWARD.apply(mower);
 
         //Verify
         verify(mower).goForward();
@@ -44,14 +37,8 @@ public class InstructionTest {
 
     @Test
     public void should_execute_turn_right_when_right() {
-        //Given
-        Instruction instruction = RIGHT;
-
-        //When
-        when(mower.goForward()).thenReturn(mower);
-
         //Action
-        instruction.apply(mower);
+        RIGHT.apply(mower);
 
         //Verify
         verify(mower).turnRight();
@@ -59,16 +46,11 @@ public class InstructionTest {
 
     @Test
     public void should_execute_turn_left_when_left() {
-        //Given
-        Instruction instruction = LEFT;
-
-        //When
-        when(mower.goForward()).thenReturn(mower);
-
         //Action
-        instruction.apply(mower);
+        LEFT.apply(mower);
 
         //Verify
         verify(mower).turnLeft();
     }
+
 }
