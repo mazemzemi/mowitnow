@@ -1,0 +1,221 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.bbc</groupId>
+    <artifactId>automower</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>automower</name>
+    <description>Test technique</description>
+    <url>https://bitbucket.org/frecco75/automower/</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <commons-validator.version>1.5.0</commons-validator.version>
+        <lang-version>3.4</lang-version>
+        <commonsio-version>2.4</commonsio-version>
+        <slf4j-version>1.7.19</slf4j-version>
+        <junit-version>4.12</junit-version>
+        <junit-addons-version>1.4</junit-addons-version>
+        <junit-theories>4.12</junit-theories>
+        <guice-version>4.0</guice-version>
+        <jbehave.version>4.0.5</jbehave.version>
+        <jbehave-runner.version>1.2.0</jbehave-runner.version>
+        <lombok.version>1.18.2</lombok.version>
+        <vavr.version>0.9.2</vavr.version>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>${vavr.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${lang-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commonsio-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j-version}</version>
+        </dependency>
+
+        <!-- TESTS -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- /TESTS -->
+
+        <!-- BDD -->
+        <dependency>
+            <groupId>org.jbehave</groupId>
+            <artifactId>jbehave-core</artifactId>
+            <version>${jbehave.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>jbehave-junit-runner</artifactId>
+            <version>${jbehave-runner.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- /BDD -->
+
+        <!-- INJECTION DE DEPENDANCES -->
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice-version}</version>
+        </dependency>
+        <!-- /INJECTION DE DEPENDANCES -->
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <compilerArgument>-Xlint:all</compilerArgument>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jbehave</groupId>
+                <artifactId>jbehave-maven-plugin</artifactId>
+                <version>4.0.5</version>
+                <executions>
+                    <execution>
+                        <id>run-stories-as-embeddables</id>
+                        <phase>integration-test</phase>
+                        <configuration>
+                            <scope>test</scope>
+                            <includes>
+                                <include>**/*Stories.java</include>
+                            </includes>
+                            <ignoreFailureInStories>false</ignoreFailureInStories>
+                            <ignoreFailureInView>false</ignoreFailureInView>
+                        </configuration>
+                        <goals>
+                            <goal>run-stories-as-embeddables</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                        <version>1.2.17</version>
+                        <scope>compile</scope>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>cobertura-maven-plugin</artifactId>
+                <version>2.7</version>
+                <configuration>
+                    <format>xml</format>
+                    <maxmem>256m</maxmem>
+                    <!-- aggregated reports for multi-module projects -->
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.1.0</version>
+                <configuration>
+                    <repoToken>3U3meyEBShu2K0c0rnfFCZywuzVThHrI0</repoToken>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.bbc.automower.main.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <finalName>${artifactId}-${version}</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>post-integration-test</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <scm>
+        <developerConnection>scm:git:https://github.com/frecco75/mowitnow.git</developerConnection>
+        <url>https://github.com/frecco75/mowitnow.git</url>
+        <connection>scm:git:https://github.com/frecco75/mowitnow.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <contributors>
+        <contributor>
+            <name>Fabien RECCO</name>
+            <email>fabien.recco@gmail.com</email>
+            <url>http://www.fabienrecco.com</url>
+            <roles>
+                <role>JAVA/J2EE Engineer</role>
+            </roles>
+        </contributor>
+    </contributors>
+
+</project>
