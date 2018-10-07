@@ -46,10 +46,10 @@ public class ParserService implements IParserService {
                         lines.isEmpty() ?
                                 INVALID_EMPTY_FILE :
                                 lawn(1, lines.get(0))
-                                        .flatMap(lawn -> automower(lawn, lines)));
+                                        .flatMap(lawn -> initialize(lawn, lines)));
     }
 
-    private Validation<Seq<String>, Lawn> automower(final Lawn lawn, final List<String> lines) {
+    private Validation<Seq<String>, Lawn> initialize(final Lawn lawn, final List<String> lines) {
         return sequence(lines
                 .zipWithIndex()
                 .drop(1)

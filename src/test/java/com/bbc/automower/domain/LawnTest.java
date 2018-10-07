@@ -1,5 +1,6 @@
 package com.bbc.automower.domain;
 
+import io.vavr.collection.Set;
 import org.junit.Test;
 
 import static com.bbc.automower.enumeration.Instruction.FORWARD;
@@ -20,6 +21,23 @@ public class LawnTest {
     @Test(expected=IllegalArgumentException.class)
     public void should_throw_illegalargumentexception_when_y_is_negative() {
         Lawn.of(1, -1);
+    }
+
+    @Test
+    public void should_initialize() {
+        //Given
+        Lawn lawn = Lawn.of(5, 5);
+        Set<Mower> mowers = LinkedSet(Mower
+                .of(1, 2, NORTH)
+                .instructions(List(LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, FORWARD)));
+
+        //Action
+        Lawn newLawn = lawn.initialize(mowers);
+
+        //Asserts
+        assertEquals(newLawn.getMowers(), mowers);
+        assertEquals(newLawn.getWidth(), lawn.getWidth());
+        assertEquals(newLawn.getHeight(), lawn.getHeight());
     }
 
     @Test

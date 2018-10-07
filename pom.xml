@@ -13,12 +13,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-validator.version>1.5.0</commons-validator.version>
-        <lang-version>3.4</lang-version>
         <commonsio-version>2.4</commonsio-version>
         <slf4j-version>1.7.19</slf4j-version>
         <junit-version>4.12</junit-version>
-        <junit-addons-version>1.4</junit-addons-version>
-        <junit-theories>4.12</junit-theories>
         <guice-version>4.0</guice-version>
         <jbehave.version>4.0.5</jbehave.version>
         <jbehave-runner.version>1.2.0</jbehave-runner.version>
@@ -45,12 +42,6 @@
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
             <version>${commons-validator.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${lang-version}</version>
         </dependency>
 
         <dependency>

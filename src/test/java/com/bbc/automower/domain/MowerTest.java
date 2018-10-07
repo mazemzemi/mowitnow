@@ -1,18 +1,36 @@
 package com.bbc.automower.domain;
 
+import com.bbc.automower.enumeration.Instruction;
 import com.bbc.automower.enumeration.Orientation;
+import io.vavr.collection.List;
 import org.junit.Test;
 
 import java.lang.reflect.Field;
 
-import static com.bbc.automower.enumeration.Instruction.LEFT;
-import static com.bbc.automower.enumeration.Instruction.RIGHT;
+import static com.bbc.automower.enumeration.Instruction.*;
 import static com.bbc.automower.enumeration.Orientation.*;
 import static io.vavr.API.List;
 import static io.vavr.API.Tuple;
 import static org.junit.Assert.*;
 
 public class MowerTest {
+
+    @Test
+    public void should_add_instructions() {
+        //Given
+        Mower mower = Mower.of(1, 2, NORTH);
+        List<Instruction> instructions = List(FORWARD);
+
+        //Action
+        Mower newMower = mower.instructions(instructions);
+
+        //Asserts
+        assertEquals(newMower.getInstructions(), instructions);
+        assertFalse(mower == newMower); //Different instances because Mower is immuable
+        assertEquals(mower, newMower); //Same Id
+        assertEquals(newMower.getPosition(), mower.getPosition());
+        assertEquals(newMower.getOrientation(), mower.getOrientation());
+    }
 
     @Test
     public void should_turn_left() {

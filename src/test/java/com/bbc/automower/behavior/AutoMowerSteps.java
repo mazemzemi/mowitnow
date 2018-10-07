@@ -5,7 +5,7 @@ import com.bbc.automower.domain.Mower;
 import com.bbc.automower.enumeration.Instruction;
 import com.bbc.automower.enumeration.Orientation;
 import io.vavr.collection.CharSeq;
-import io.vavr.collection.HashSet;
+import io.vavr.collection.LinkedHashSet;
 import io.vavr.control.Option;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
@@ -57,7 +57,7 @@ public class AutoMowerSteps {
 
     @When("the mowers execute their instructions")
     public void mowerExecutesInstructions() {
-        lawn = lawn.initialize(HashSet.ofAll(mowers))
+        lawn = lawn.initialize(LinkedHashSet.ofAll(mowers))
                 .execute();
     }
 
@@ -74,13 +74,12 @@ public class AutoMowerSteps {
                         fail("Mower " + number + " not found in lawn at position (" + x + "," + y + ")");
                     }
 
-                    maybeMower
-                            .forEach(mower2 -> {
-                                assertNotNull(mower2.getPosition());
-                                assertEquals(x, mower2.getPosition().getX());
-                                assertEquals(y, mower2.getPosition().getY());
-                                assertEquals(Orientation.getByLabel(orientationLabel).get(), mower2.getOrientation());
-                            });
+                    maybeMower.forEach(mower2 -> {
+                        assertNotNull(mower2.getPosition());
+                        assertEquals(x, mower2.getPosition().getX());
+                        assertEquals(y, mower2.getPosition().getY());
+                        assertEquals(Orientation.getByLabel(orientationLabel).get(), mower2.getOrientation());
+                    });
                 });
     }
 
