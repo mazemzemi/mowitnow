@@ -46,13 +46,25 @@ public class Mower implements Movable<Mower> {
                 .build();
     }
 
+    public Mower executeNextInstruction() {
+        Mower mower = instructions.head()
+                .apply(this);
+
+        return Mower.builder()
+                .uuid(mower.uuid)
+                .orientation(mower.orientation)
+                .position(mower.position)
+                .instructions(mower.instructions.pop())
+                .build();
+    }
+
     @Override
     public Mower turnRight() {
         return Mower.builder()
                 .uuid(uuid)
                 .orientation(orientation.right())
                 .position(position)
-                .instructions(instructions.pop())
+                .instructions(instructions)
                 .build();
     }
 
@@ -62,7 +74,7 @@ public class Mower implements Movable<Mower> {
                 .uuid(uuid)
                 .orientation(orientation.left())
                 .position(position)
-                .instructions(instructions.pop())
+                .instructions(instructions)
                 .build();
     }
 
@@ -71,7 +83,7 @@ public class Mower implements Movable<Mower> {
         return Mower.builder()
                 .uuid(uuid)
                 .orientation(orientation)
-                .instructions(instructions.pop())
+                .instructions(instructions)
                 .position(
                         Match(orientation).of(
                                 Case($(EAST), position::incrementX),

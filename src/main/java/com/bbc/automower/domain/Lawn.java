@@ -1,6 +1,5 @@
 package com.bbc.automower.domain;
 
-import com.bbc.automower.enumeration.Instruction;
 import io.vavr.Tuple2;
 import io.vavr.collection.Set;
 import io.vavr.control.Validation;
@@ -52,17 +51,14 @@ public class Lawn {
     public Lawn execute() {
         return mowers.foldLeft(
                 this,
-                (l,m) -> m.getInstructions()
-                        .foldLeft(
-                                Tuple(l, m),
-                                (t, instruction) -> t._1.execute(t._2, instruction))
+                (l,m) ->  l.executeInstructions(m)
                         .map2(Mower::printPosition)
                         ._1
         );
     }
 
-    private Tuple2<Lawn, Mower> execute(final Mower mower, final Instruction instruction) {
-        return validPosition(instruction.apply(mower))
+    private Tuple2<Lawn, Mower> executeInstructions(final Mower mower) {
+        Tuple2<Lawn, Mower> lawnAndMower = validPosition(mower.executeNextInstruction())
                 .fold(
                         err -> {
                             log.warn(err);
@@ -70,6 +66,10 @@ public class Lawn {
                         },
                         mower1 -> Tuple(move(mower1), mower1)
                 );
+
+        return lawnAndMower._2.getInstructions().isEmpty() ?
+                lawnAndMower :
+                lawnAndMower._1.executeInstructions(lawnAndMower._2);
     }
 
     private Lawn move(final Mower mower) {

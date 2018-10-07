@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
-import static com.bbc.automower.enumeration.Instruction.*;
+import static com.bbc.automower.enumeration.Instruction.LEFT;
+import static com.bbc.automower.enumeration.Instruction.RIGHT;
 import static com.bbc.automower.enumeration.Orientation.*;
 import static io.vavr.API.List;
 import static io.vavr.API.Tuple;
@@ -40,11 +41,10 @@ public class MowerTest {
     @Test
     public void should_be_equal_if_same_id() throws Exception {
         //Given
-        Mower mower = Mower.of(1, 2, NORTH)
-                .instructions(List(FORWARD));
+        Mower mower = Mower.of(1, 2, NORTH);
 
         //Action
-        Mower newMower = executeInstructions(mower);
+        Mower newMower = mower.goForward();
 
         //Asserts
         Field uuid = mower.getClass().getDeclaredField("uuid");
@@ -59,14 +59,31 @@ public class MowerTest {
         );
     }
 
+    @Test
+    public void should_execute_next_instruction() {
+        //Given
+        Mower mower = Mower.of(1, 2, NORTH)
+                .instructions(List(LEFT, RIGHT));
+
+        //Action
+        Mower newMower = mower.executeNextInstruction();
+
+        //Asserts
+        assertFalse(mower == newMower); //Different instances because Mower is immuable
+        assertEquals(mower, newMower); //Same Id
+        assertEquals(newMower.getOrientation(), WEST);
+        assertEquals(newMower.getPosition(), Position.of(1, 2));
+        assertEquals(newMower.getInstructions().size(), mower.getInstructions().size() - 1);
+
+    }
+
 
     // Private methods
     //-------------------------------------------------------------------------
 
     private void testGoForwardWhenNorth() {
         //Given
-        Mower mower = Mower.of(5, 5, NORTH)
-                .instructions(List(FORWARD));
+        Mower mower = Mower.of(5, 5, NORTH);
 
         //Test
         testGoForward(mower, 5, 6);
@@ -74,8 +91,7 @@ public class MowerTest {
 
     private void testGoForwardWhenSouth() {
         //Given
-        Mower mower = Mower.of(5, 5, SOUTH)
-                .instructions(List(FORWARD));
+        Mower mower = Mower.of(5, 5, SOUTH);
 
         //Test
         testGoForward(mower, 5, 4);
@@ -83,9 +99,7 @@ public class MowerTest {
 
     private void testGoForwardWhenEast() {
         //Given
-        Mower mower = Mower.of(5, 5, EAST)
-                .instructions(List(FORWARD));
-
+        Mower mower = Mower.of(5, 5, EAST);
 
         //Test
         testGoForward(mower, 6, 5);
@@ -93,9 +107,7 @@ public class MowerTest {
 
     private void testGoForwardWhenWest() {
         //Given
-        Mower mower = Mower.of(5, 5, WEST)
-                .instructions(List(FORWARD));
-
+        Mower mower = Mower.of(5, 5, WEST);
 
         //Test
         testGoForward(mower, 4, 5);
@@ -103,11 +115,10 @@ public class MowerTest {
 
     private void testTurnLeft(final Orientation initial, final Orientation expected) {
         //Given
-        Mower mower = Mower.of(5, 5, initial)
-                .instructions(List(LEFT));
+        Mower mower = Mower.of(5, 5, initial);
 
         //Action
-        Mower newMower = executeInstructions(mower);
+        Mower newMower = mower.turnLeft();
 
         //Asserts
         assertFalse(mower == newMower); //Different instances because Mower is immuable
@@ -117,11 +128,10 @@ public class MowerTest {
 
     private void testTurnRight(final Orientation initial, final Orientation expected) {
         //Given
-        Mower mower = Mower.of(5, 5, initial)
-                .instructions(List(RIGHT));
+        Mower mower = Mower.of(5, 5, initial);
 
         //Action
-        Mower newMower = executeInstructions(mower);
+        Mower newMower = mower.turnRight();
 
         //Asserts
         assertFalse(mower == newMower); //Different instances because Mower is immuable
@@ -131,19 +141,13 @@ public class MowerTest {
 
     private void testGoForward(final Mower mower, int expectedX, int expectedY) {
         //Action
-        Mower newMower = executeInstructions(mower);
+        Mower newMower = mower.goForward();
 
         //Asserts
         assertFalse(mower == newMower); //Different instances because Mower is immuable
         assertEquals(mower, newMower); //Same Id
         assertEquals(expectedX, newMower.getPosition().getX());
         assertEquals(expectedY, newMower.getPosition().getY());
-    }
-
-    private Mower executeInstructions(final Mower mower) {
-        return mower.getInstructions()
-                .map(instruction -> instruction.apply(mower))
-                .last();
     }
 
 }
