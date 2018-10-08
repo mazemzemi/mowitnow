@@ -3,8 +3,8 @@ package com.bbc.automower.domain;
 import io.vavr.collection.Set;
 import org.junit.Test;
 
-import static com.bbc.automower.enumeration.Instruction.FORWARD;
-import static com.bbc.automower.enumeration.Instruction.LEFT;
+import static com.bbc.automower.enumeration.Instruction.MOVE_FORWARD;
+import static com.bbc.automower.enumeration.Instruction.TURN_LEFT;
 import static com.bbc.automower.enumeration.Orientation.NORTH;
 import static com.bbc.automower.enumeration.Orientation.SOUTH;
 import static io.vavr.API.LinkedSet;
@@ -29,7 +29,7 @@ public class LawnTest {
         Lawn lawn = Lawn.of(5, 5);
         Set<Mower> mowers = LinkedSet(Mower
                 .of(1, 2, NORTH)
-                .instructions(List(LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, FORWARD)));
+                .instructions(List(TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, MOVE_FORWARD)));
 
         //Action
         Lawn newLawn = lawn.initialize(mowers);
@@ -47,7 +47,7 @@ public class LawnTest {
                 .initialize(
                         LinkedSet(Mower
                                 .of(1, 2, NORTH)
-                                .instructions(List(LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, LEFT, FORWARD, FORWARD))));
+                                .instructions(List(TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, MOVE_FORWARD))));
 
         //Action
         Lawn newLawn = lawn.execute();
@@ -82,7 +82,7 @@ public class LawnTest {
                 .initialize(
                         LinkedSet(
                                 Mower.of(0, 0, SOUTH)
-                                        .instructions(List(FORWARD))));
+                                        .instructions(List(MOVE_FORWARD))));
 
         //Action
         Lawn newLawn = lawn.execute();

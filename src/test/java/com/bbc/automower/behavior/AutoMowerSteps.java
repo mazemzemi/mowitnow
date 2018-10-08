@@ -46,13 +46,14 @@ public class AutoMowerSteps {
 
     @Given("a mower at position $x $y $orientationLabel with instructions $instructions")
     public void mowerAtPosition(final int x, final int y, final String orientationLabel, final String instructions) {
-        Mower mower = Mower.of(x, y, Orientation.getByLabel(orientationLabel).get())
-                .instructions(CharSeq.of(instructions)
-                        .map(Instruction::getByLabel)
-                        .flatMap(identity())
-                        .toList());
-
-        mowers.add(mower);
+        mowers.add(
+                Mower
+                        .of(x, y, Orientation.getByLabel(orientationLabel).get())
+                        .instructions(CharSeq
+                                .of(instructions)
+                                .map(Instruction::getByLabel)
+                                .flatMap(identity())
+                                .toList()));
     }
 
     @When("the mowers execute their instructions")
@@ -89,12 +90,10 @@ public class AutoMowerSteps {
 
     private Option<Integer> extractIndex(final String numero) {
         Matcher matcher = REGEX_GET_INT_PATTERN.matcher(numero);
-        if(matcher.find()) {
-            String str = matcher.group(1);
-            return Try(() ->  parseInt(str) - 1)
-                    .toOption();
-        }
-        return none();
+        return matcher.matches() ?
+                Try(() ->  parseInt(matcher.group(1)) - 1)
+                        .toOption() :
+                none();
     }
 
 }

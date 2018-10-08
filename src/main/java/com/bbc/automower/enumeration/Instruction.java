@@ -11,19 +11,19 @@ import static io.vavr.API.Stream;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 public enum Instruction {
-    FORWARD('F') {
+    MOVE_FORWARD('F') {
         @Override
         public <T extends Movable<T>> T apply(final Movable<T> movable) {
-            return movable.goForward();
+            return movable.moveForward();
         }
     },
-    RIGHT('R') {
+    TURN_RIGHT('R') {
         @Override
         public <T extends Movable<T>> T apply(final Movable<T> movable) {
             return movable.turnRight();
         }
     },
-    LEFT('L') {
+    TURN_LEFT('L') {
         @Override
         public <T extends Movable<T>> T apply(final Movable<T> movable) {
             return movable.turnLeft();

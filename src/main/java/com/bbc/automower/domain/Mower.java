@@ -76,7 +76,7 @@ public class Mower implements Movable<Mower> {
     }
 
     @Override
-    public Mower goForward() {
+    public Mower moveForward() {
         return Mower.builder()
                 .uuid(uuid)
                 .orientation(orientation)

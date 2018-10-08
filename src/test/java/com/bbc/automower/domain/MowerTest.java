@@ -20,7 +20,7 @@ public class MowerTest {
     public void should_add_instructions() {
         //Given
         Mower mower = Mower.of(1, 2, NORTH);
-        List<Instruction> instructions = List(FORWARD);
+        List<Instruction> instructions = List(MOVE_FORWARD);
 
         //Action
         Mower newMower = mower.instructions(instructions);
@@ -50,11 +50,11 @@ public class MowerTest {
     }
 
     @Test
-    public void should_go_forward() {
-        testGoForwardWhenNorth();
-        testGoForwardWhenSouth();
-        testGoForwardWhenEast();
-        testGoForwardWhenWest();
+    public void should_move_forward() {
+        testMoveForwardWhenNorth();
+        testMoveForwardWhenSouth();
+        testMoveForwardWhenEast();
+        testMoveForwardWhenWest();
     }
 
     @Test
@@ -63,7 +63,7 @@ public class MowerTest {
         Mower mower = Mower.of(1, 2, NORTH);
 
         //Action
-        Mower newMower = mower.goForward();
+        Mower newMower = mower.moveForward();
 
         //Asserts
         Field uuid = mower.getClass().getDeclaredField("uuid");
@@ -82,7 +82,7 @@ public class MowerTest {
     public void should_execute_next_instruction() {
         //Given
         Mower mower = Mower.of(1, 2, NORTH)
-                .instructions(List(LEFT, RIGHT));
+                .instructions(List(TURN_LEFT, TURN_RIGHT));
 
         //Action
         Option<Mower> maybeMower1 = mower.executeInstruction();
@@ -116,48 +116,48 @@ public class MowerTest {
     public void should_remove_next_instruction_when_no_action() {
         //Given
         Mower mower = Mower.of(1, 2, NORTH)
-                .instructions(List(LEFT, RIGHT));
+                .instructions(List(TURN_LEFT, TURN_RIGHT));
 
         //Action
         Mower mower1 = mower.removeInstruction();
 
         //Asserts
-        assertEquals(mower1.getInstructions(), List(RIGHT));
+        assertEquals(mower1.getInstructions(), List(TURN_RIGHT));
     }
 
     // Private methods
     //-------------------------------------------------------------------------
 
-    private void testGoForwardWhenNorth() {
+    private void testMoveForwardWhenNorth() {
         //Given
         Mower mower = Mower.of(5, 5, NORTH);
 
         //Test
-        testGoForward(mower, 5, 6);
+        testMoveForward(mower, 5, 6);
     }
 
-    private void testGoForwardWhenSouth() {
+    private void testMoveForwardWhenSouth() {
         //Given
         Mower mower = Mower.of(5, 5, SOUTH);
 
         //Test
-        testGoForward(mower, 5, 4);
+        testMoveForward(mower, 5, 4);
     }
 
-    private void testGoForwardWhenEast() {
+    private void testMoveForwardWhenEast() {
         //Given
         Mower mower = Mower.of(5, 5, EAST);
 
         //Test
-        testGoForward(mower, 6, 5);
+        testMoveForward(mower, 6, 5);
     }
 
-    private void testGoForwardWhenWest() {
+    private void testMoveForwardWhenWest() {
         //Given
         Mower mower = Mower.of(5, 5, WEST);
 
         //Test
-        testGoForward(mower, 4, 5);
+        testMoveForward(mower, 4, 5);
     }
 
     private void testTurnLeft(final Orientation initial, final Orientation expected) {
@@ -186,9 +186,9 @@ public class MowerTest {
         assertEquals(expected, newMower.getOrientation());
     }
 
-    private void testGoForward(final Mower mower, int expectedX, int expectedY) {
+    private void testMoveForward(final Mower mower, int expectedX, int expectedY) {
         //Action
-        Mower newMower = mower.goForward();
+        Mower newMower = mower.moveForward();
 
         //Asserts
         assertFalse(mower == newMower); //Different instances because Mower is immuable

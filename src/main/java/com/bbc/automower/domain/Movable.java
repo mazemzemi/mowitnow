@@ -6,6 +6,6 @@ public interface Movable<T extends Movable<T>> {
 
     T turnLeft();
 
-    T goForward();
+    T moveForward();
     
 }
