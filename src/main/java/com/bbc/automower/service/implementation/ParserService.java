@@ -42,11 +42,14 @@ public class ParserService implements IParserService {
         log.debug("Parsing file {}......", filePath);
         return readFile(filePath)
                 .mapError(API::Seq)
-                .flatMap(lines ->
-                        lines.isEmpty() ?
-                                INVALID_EMPTY_FILE :
-                                lawn(1, lines.get(0))
-                                        .flatMap(lawn -> initialize(lawn, lines)));
+                .flatMap(this::parseLines);
+    }
+
+    private Validation<Seq<String>, Lawn> parseLines(final List<String> lines) {
+        return lines.isEmpty() ?
+                INVALID_EMPTY_FILE :
+                lawn(1, lines.get(0))
+                        .flatMap(lawn -> initialize(lawn, lines));
     }
 
     private Validation<Seq<String>, Lawn> initialize(final Lawn lawn, final List<String> lines) {
