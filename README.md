@@ -5,7 +5,7 @@ Source code : [https://github.com/frecco75/mowitnow](https://github.com/frecco75
 
 | **Build** | **Coverage** | **Code Quality** | **Dependencies** | **Documentation** |
 |-----------|--------------|------------------|------------------|-------------------|
-|[![Build Status](https://travis-ci.org/frecco75/mowitnow.svg?branch=master)](https://travis-ci.org/frecco75/mowitnow) |[![Coverage Status](https://coveralls.io/repos/github/frecco75/mowitnow/badge.svg?branch=master)](https://coveralls.io/github/frecco75/mowitnow?branch=master) |[![Codacy Badge](https://api.codacy.com/project/badge/grade/bbde8b0ea3e1450a87d47ade80b8cdaf)](https://www.codacy.com/app/fabien-recco/mowitnow) |[![Dependency Status](https://www.versioneye.com/user/projects/56eea4ae35630e0029dafb6b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/56eea4ae35630e0029dafb6b) |[![Documentation Status](https://readthedocs.org/projects/automower/badge/?version=latest)](http://automower.readthedocs.org/en/latest/README/)|
+|[![Build Status](https://travis-ci.org/frecco75/mowitnow.svg?branch=master)](https://travis-ci.org/frecco75/mowitnow) |[![Coverage Status](https://coveralls.io/repos/github/frecco75/mowitnow/badge.svg?branch=master)](https://coveralls.io/github/frecco75/mowitnow?branch=master) |[![Codacy Badge](https://api.codacy.com/project/badge/grade/bbde8b0ea3e1450a87d47ade80b8cdaf)](https://www.codacy.com/app/fabien-recco/mowitnow) |[![Known Vulnerabilities](https://snyk.io/test/github/frecco75/mowitnow/badge.svg)](https://snyk.io/test/github/frecco75/mowitnow) |[![Documentation Status](https://readthedocs.org/projects/automower/badge/?version=latest)](http://automower.readthedocs.org/en/latest/README/)|
 
 ### Required configuration ###
 * JDK 1.8
