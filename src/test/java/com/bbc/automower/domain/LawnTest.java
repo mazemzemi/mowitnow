@@ -1,5 +1,7 @@
 package com.bbc.automower.domain;
 
+import io.vavr.API;
+import io.vavr.collection.List;
 import io.vavr.collection.Set;
 import org.junit.Test;
 
@@ -27,7 +29,7 @@ public class LawnTest {
     public void should_initialize_lawn() {
         //Given
         Lawn lawn = Lawn.of(5, 5);
-        Set<Mower> mowers = LinkedSet(Mower
+        List<Mower> mowers = List(Mower
                 .of(1, 2, NORTH)
                 .instructions(List(TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, MOVE_FORWARD)));
 
@@ -45,7 +47,7 @@ public class LawnTest {
         //Given
         Lawn lawn = Lawn.of(5, 5)
                 .initialize(
-                        LinkedSet(Mower
+                        List(Mower
                                 .of(1, 2, NORTH)
                                 .instructions(List(TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, MOVE_FORWARD))));
 
@@ -66,7 +68,7 @@ public class LawnTest {
         //Given
         Lawn lawn = Lawn.of(5, 5)
                 .initialize(
-                        LinkedSet(Mower.of(1, 2, NORTH)));
+                        List(Mower.of(1, 2, NORTH)));
 
         //Action
         Lawn newLawn = lawn.execute();
@@ -80,7 +82,7 @@ public class LawnTest {
         //Given
         Lawn lawn = Lawn.of(5, 5)
                 .initialize(
-                        LinkedSet(
+                        List(
                                 Mower.of(0, 0, SOUTH)
                                         .instructions(List(MOVE_FORWARD))));
 

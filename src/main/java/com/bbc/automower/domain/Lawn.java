@@ -1,7 +1,7 @@
 package com.bbc.automower.domain;
 
 import io.vavr.Tuple2;
-import io.vavr.collection.Set;
+import io.vavr.collection.List;
 import io.vavr.control.Validation;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,7 +24,7 @@ public class Lawn {
 
     int width;
     int height;
-    Set<Mower> mowers;
+    List<Mower> mowers;
 
     public static Lawn of(final int width, final int height) {
         return new Lawn(width, height);
@@ -37,14 +37,14 @@ public class Lawn {
 
         this.width = width;
         this.height = height;
-        this.mowers = LinkedSet();
+        this.mowers = List();
     }
 
-    public Lawn initialize(final Set<Mower> mowers) {
+    public Lawn initialize(final List<Mower> mowers) {
         return Lawn.builder()
                 .width(width)
                 .height(height)
-                .mowers(this.mowers.addAll(mowers))
+                .mowers(this.mowers.appendAll(mowers))
                 .build();
     }
 
@@ -74,9 +74,7 @@ public class Lawn {
         return Lawn.builder()
                 .width(width)
                 .height(height)
-                .mowers(mowers
-                        .remove(mower)
-                        .add(mower))
+                .mowers(mowers.replace(mower, mower))
                 .build();
     }
 

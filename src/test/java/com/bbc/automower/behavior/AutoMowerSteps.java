@@ -5,7 +5,7 @@ import com.bbc.automower.domain.Mower;
 import com.bbc.automower.enumeration.Instruction;
 import com.bbc.automower.enumeration.Orientation;
 import io.vavr.collection.CharSeq;
-import io.vavr.collection.LinkedHashSet;
+import io.vavr.collection.List;
 import io.vavr.control.Option;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
@@ -58,7 +58,7 @@ public class AutoMowerSteps {
 
     @When("the mowers execute their instructions")
     public void mowerExecutesInstructions() {
-        lawn = lawn.initialize(LinkedHashSet.ofAll(mowers))
+        lawn = lawn.initialize(List.ofAll(mowers))
                 .execute();
     }
 

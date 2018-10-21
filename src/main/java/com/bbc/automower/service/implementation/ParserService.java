@@ -58,7 +58,7 @@ public class ParserService implements IParserService {
                 .drop(1)
                 .grouped(2)
                 .map(this::mowerWithInstructions))
-                .map(Value::toLinkedSet)
+                .map(Value::toList)
                 .map(lawn::initialize);
     }
 

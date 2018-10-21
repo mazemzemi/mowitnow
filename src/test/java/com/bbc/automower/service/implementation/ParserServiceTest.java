@@ -2,6 +2,7 @@ package com.bbc.automower.service.implementation;
 
 import com.bbc.automower.domain.Lawn;
 import com.bbc.automower.domain.Mower;
+import io.vavr.API;
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
 import org.junit.Test;
@@ -149,7 +150,7 @@ public class ParserServiceTest {
     private Lawn expectedLawn() {
         return Lawn.of(5, 5)
                 .initialize(
-                        LinkedSet(
+                        List(
                                 Mower
                                         .of(1, 2, NORTH)
                                         .instructions(List(TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, TURN_LEFT, MOVE_FORWARD, MOVE_FORWARD)),
